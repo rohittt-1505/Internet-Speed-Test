@@ -4,7 +4,7 @@ const netTypeSpan = document.getElementById('netType');
 const speedSpan = document.getElementById('speed');
 
 startBtn.addEventListener('click', () => {
-  // 1. Get Location
+  // Get location
   if (navigator.geolocation) {
     locationSpan.textContent = 'Getting location...';
     navigator.geolocation.getCurrentPosition(
@@ -12,30 +12,30 @@ startBtn.addEventListener('click', () => {
         const { latitude, longitude } = pos.coords;
         locationSpan.textContent = `Lat: ${latitude.toFixed(5)}, Lon: ${longitude.toFixed(5)}`;
       },
-      (err) => {
+      () => {
         locationSpan.textContent = 'Location access denied or unavailable.';
       }
     );
   } else {
-    locationSpan.textContent = 'Geolocation not supported by your browser.';
+    locationSpan.textContent = 'Geolocation not supported.';
   }
 
-  // 2. Get Network Type
+  // Network type
   if (navigator.connection && navigator.connection.effectiveType) {
     netTypeSpan.textContent = navigator.connection.effectiveType;
   } else {
-    netTypeSpan.textContent = 'Network Information API not supported.';
+    netTypeSpan.textContent = 'Not supported.';
   }
 
-  // 3. Test Download Speed
+  // Speed test
   testDownloadSpeed();
 });
 
 async function testDownloadSpeed() {
   const imageUrl = 'https://upload.wikimedia.org/wikipedia/commons/3/3f/Fronalpstock_big.jpg';
-  const fileSizeInBytes = 1572864; // approx 1.5MB in bytes
+  const fileSizeInBytes = 1572864; // ~1.5MB
 
-  speedSpan.textContent = 'Testing download speed...';
+  speedSpan.textContent = 'Testing...';
 
   const startTime = performance.now();
   try {
@@ -49,17 +49,18 @@ async function testDownloadSpeed() {
     const speedMbps = (speedBps / (1024 * 1024)).toFixed(2);
 
     animateSpeed(parseFloat(speedMbps));
-  } catch (error) {
+  } catch {
     speedSpan.textContent = 'Error testing speed.';
   }
 }
 
 function animateSpeed(finalSpeed) {
   let current = 0;
-  const duration = 1500; // 1.5 seconds
+  const duration = 1500;
   const stepTime = 30;
   const steps = duration / stepTime;
   const increment = finalSpeed / steps;
+
   speedSpan.textContent = '0.00 Mbps';
 
   let interval = setInterval(() => {
