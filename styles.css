@@ -74,3 +74,25 @@ button#startBtn:hover {
     font-size: 1.6rem;
   }
 }
+
+footer {
+  margin-top: 40px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #aaa;
+  padding: 20px 10px;
+  width: 100%;
+  background-color: #111;
+  border-top: 1px solid #333;
+}
+
+footer a {
+  color: #88c0d0;
+  text-decoration: none;
+  margin: 0 8px;
+  transition: color 0.3s ease;
+}
+
+footer a:hover {
+  color: #f6e05e;
+}
