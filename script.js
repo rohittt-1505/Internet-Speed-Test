@@ -4,7 +4,7 @@ const speedSpan = document.getElementById('speed');
 
 function updateConnectionInfo() {
   if (navigator.connection && navigator.connection.effectiveType) {
-    netTypeSpan.textContent = navigator.connection.effectiveType;
+    netTypeSpan.textContent = navigator.connection.effectiveType.toUpperCase();
   } else {
     netTypeSpan.textContent = 'Not supported.';
   }
@@ -19,7 +19,7 @@ function updateLocationLive() {
         locationSpan.textContent = `Lat: ${latitude.toFixed(5)}, Lon: ${longitude.toFixed(5)}, Acc: ±${accuracy}m`;
       },
       () => {
-        locationSpan.textContent = 'Unable to track location.';
+        locationSpan.textContent = 'Location error.';
       },
       {
         enableHighAccuracy: true,
@@ -28,13 +28,13 @@ function updateLocationLive() {
       }
     );
   } else {
-    locationSpan.textContent = 'Geolocation not supported.';
+    locationSpan.textContent = 'Not supported.';
   }
 }
 
 async function testDownloadSpeed() {
   const imageUrl = 'https://upload.wikimedia.org/wikipedia/commons/3/3f/Fronalpstock_big.jpg';
-  const fileSizeInBytes = 1572864; // 1.5MB
+  const fileSize = 1572864; // 1.5MB
 
   const startTime = performance.now();
   try {
@@ -42,37 +42,34 @@ async function testDownloadSpeed() {
     await response.blob();
     const endTime = performance.now();
 
-    const durationSeconds = (endTime - startTime) / 1000;
-    const bitsLoaded = fileSizeInBytes * 8;
-    const speedBps = bitsLoaded / durationSeconds;
+    const duration = (endTime - startTime) / 1000;
+    const bitsLoaded = fileSize * 8;
+    const speedBps = bitsLoaded / duration;
     const speedMbps = (speedBps / (1024 * 1024)).toFixed(2);
 
-    animateSpeed(parseFloat(speedMbps));
+    animateSpeed(speedMbps);
   } catch {
     speedSpan.textContent = 'Error';
   }
 }
 
-function animateSpeed(finalSpeed) {
+function animateSpeed(target) {
   let current = 0;
   const duration = 1500;
-  const stepTime = 30;
-  const steps = duration / stepTime;
-  const increment = finalSpeed / steps;
+  const interval = 30;
+  const steps = duration / interval;
+  const increment = target / steps;
 
-  speedSpan.textContent = '0.00 Mbps';
-
-  let interval = setInterval(() => {
+  const timer = setInterval(() => {
     current += increment;
-    if (current >= finalSpeed) {
-      current = finalSpeed;
-      clearInterval(interval);
+    if (current >= target) {
+      current = target;
+      clearInterval(timer);
     }
-    speedSpan.textContent = current.toFixed(2) + ' Mbps';
-  }, stepTime);
+    speedSpan.textContent = `${current.toFixed(2)} Mbps`;
+  }, interval);
 }
 
-// Start everything
 document.getElementById('startBtn').addEventListener('click', () => {
   updateConnectionInfo();
   updateLocationLive();
@@ -80,5 +77,5 @@ document.getElementById('startBtn').addEventListener('click', () => {
   setInterval(() => {
     updateConnectionInfo();
     testDownloadSpeed();
-  }, 30000); // every 30 seconds
+  }, 30000); // repeat every 30 sec
 });

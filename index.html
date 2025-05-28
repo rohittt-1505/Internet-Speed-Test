@@ -3,23 +3,33 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Internet Speed Test</title>
+  <title>Speed & Location Monitor</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <h1>Internet Speed Test</h1>
-  <button id="startBtn">Start Test</button>
+  <main class="container">
+    <h1>📡 Real-Time Network Monitor</h1>
 
-  <div id="output">
-    <p><strong>Location:</strong> <span id="location">Not checked yet</span></p>
-    <p><strong>Network Type:</strong> <span id="netType">Unknown</span></p>
-    <p><strong>Download Speed:</strong> <span id="speed">Not measured yet</span></p>
-  </div>
+    <div class="info-card">
+      <h2>📍 Location</h2>
+      <p id="location">Waiting for GPS...</p>
+    </div>
+
+    <div class="info-card">
+      <h2>🌐 Network Type</h2>
+      <p id="netType">Checking...</p>
+    </div>
+
+    <div class="info-card">
+      <h2>⚡ Download Speed</h2>
+      <p id="speed">0.00 Mbps</p>
+    </div>
+
+    <button id="startBtn">Start Monitoring</button>
+  </main>
 
   <footer>
-    <p>📱 Created by Rohit Rathod
-      <br>
-       <a href="https://github.com/rohittt-1505">GitHub</a> | <a href="https://rohitrathod.netlify.app/">Contact</a></p>
+    <p>📱 Built with ❤️ by YourName | <a href="#">GitHub</a></p>
   </footer>
 
   <script src="script.js"></script>
